@@ -16,7 +16,7 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="firstname" v-model="name">
                     <div v-show="firstnameError" class="text-danger"> 
-                    ... the name is short
+                    ... the firstname is short
                     </div>
                 </div>
                 

@@ -25,7 +25,8 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'profile_image' =>'imagetest.jpg',
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
+            'is_admin' => false
         ]);
  
         $token = $user->createToken('TutsForWeb')->accessToken;

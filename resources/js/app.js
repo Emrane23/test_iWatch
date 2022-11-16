@@ -34,6 +34,9 @@ Vue.component('login', require('./components/LoginComponent.vue').default);
 import router from './routes/routes';
 import Vuex from 'vuex';
 import Axios from 'axios';
+import VueSimpleAlert from "vue-simple-alert";
+ 
+Vue.use(VueSimpleAlert);
 Vue.use(Vuex)
 const store = new Vuex.Store({
     state:{
@@ -48,7 +51,7 @@ const store = new Vuex.Store({
         setUserToken(state, userToken){
             state.userToken = userToken ;
             localStorage.setItem('userToken', JSON.stringify(userToken));
-            axios.defaults.headers.common.Authorization = `bearer ${userToken}`
+            axios.defaults.headers.common.Authorization = `Bearer ${userToken}`
         }, 
         removeUserToken(state){
             state.userToken = null ;

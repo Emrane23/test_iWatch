@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
-class UserSeeder extends Seeder
+class AdminSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,10 +13,10 @@ class UserSeeder extends Seeder
     {
         \App\User::create([
             'name' => 'Emrane Klaai',
-            'email' => 'omranklaai@gmail.com',
+            'email' => 'omran@gmail.com',
             'password' => Hash::make('123456'),
             'profile_image' => 'img1.jpg',
-            'is_admin' => false
+            'is_admin' => true
         ]);
     }
 }

@@ -56,12 +56,13 @@ computed:{
         return this.password.length > 0 && this.password.length < 7
     },
     isFromValid(){
-         (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) && this.password.length > 5
+      return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) && this.password.length > 5
     }
 },
 methods:{
     LoginFunction(){
-        console.log('submit good');
+      let {email,password} = this ; 
+        this.$store.dispatch('LoginUser',{email,password})
     }
 }
 }
