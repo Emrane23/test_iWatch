@@ -57,17 +57,17 @@ const store = new Vuex.Store({
     },
     actions:{
         RegisterUser({commit},parametres){
-            axios.post(('/api/register',parametres)).then( res => {
+            axios.post('/api/register',parametres).then( res => {
                 console.log(res)
-                commit('setUserToken', parametres)
+                commit('setUserToken', res.data.token)
             }).catch( err => {
                 console.log(err)
             })
         },
         LoginUser({commit},parametres){
-            axios.post(('/api/login',parametres)).then( res => {
+            axios.post('/api/login',parametres).then( res => {
                 console.log(res)
-                commit('setUserToken', parametres)
+                commit('setUserToken', res.data.token)
             }).catch( err => {
                 console.log(err)
             })

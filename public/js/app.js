@@ -2140,14 +2140,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      firstname: '',
+      name: '',
       password: '',
       email: ''
     };
   },
   computed: {
     firstnameError: function firstnameError() {
-      return this.firstname.length > 0 && this.firstname.length < 4;
+      return this.name.length > 0 && this.name.length < 4;
     },
     emailError: function emailError() {
       return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email) && this.email.length > 0;
@@ -2156,13 +2156,20 @@ __webpack_require__.r(__webpack_exports__);
       return this.password.length > 0 && this.password.length < 7;
     },
     isFromValid: function isFromValid() {
-      return this.firstname.length > 4 && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email) && this.password.length > 5;
+      return this.name.length > 4 && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email) && this.password.length > 5;
     }
   },
   methods: {
     RegisterFunction: function RegisterFunction() {
       // console.log(this.$store.state.userToken);
-      console.log(this.$store.getters.isLogged);
+      var name = this.name,
+        email = this.email,
+        password = this.password;
+      this.$store.dispatch('RegisterUser', {
+        name: name,
+        email: email,
+        password: password
+      });
     }
   }
 });
@@ -2822,8 +2829,8 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.firstname,
-      expression: "firstname"
+      value: _vm.name,
+      expression: "name"
     }],
     staticClass: "form-control",
     attrs: {
@@ -2831,12 +2838,12 @@ var render = function render() {
       placeholder: "firstname"
     },
     domProps: {
-      value: _vm.firstname
+      value: _vm.name
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.firstname = $event.target.value;
+        _vm.name = $event.target.value;
       }
     }
   }), _vm._v(" "), _c("div", {
@@ -2847,7 +2854,7 @@ var render = function render() {
       expression: "firstnameError"
     }],
     staticClass: "text-danger"
-  }, [_vm._v(" \n                    ... the firstname is short\n                    ")])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(" \n                    ... the name is short\n                    ")])]), _vm._v(" "), _c("div", {
     staticClass: "form-group"
   }, [_c("input", {
     directives: [{
@@ -55369,18 +55376,18 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   actions: {
     RegisterUser: function RegisterUser(_ref, parametres) {
       var commit = _ref.commit;
-      axios.post(('/api/register', parametres)).then(function (res) {
+      axios.post('/api/register', parametres).then(function (res) {
         console.log(res);
-        commit('setUserToken', parametres);
+        commit('setUserToken', res.data.token);
       })["catch"](function (err) {
         console.log(err);
       });
     },
     LoginUser: function LoginUser(_ref2, parametres) {
       var commit = _ref2.commit;
-      axios.post(('/api/login', parametres)).then(function (res) {
+      axios.post('/api/login', parametres).then(function (res) {
         console.log(res);
-        commit('setUserToken', parametres);
+        commit('setUserToken', res.data.token);
       })["catch"](function (err) {
         console.log(err);
       });

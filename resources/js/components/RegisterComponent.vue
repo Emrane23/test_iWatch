@@ -14,9 +14,9 @@
             <form action="/examples/actions/confirmation.php" method="post" novalidate>
                 <h2 class="text-center">Create New Account</h2>       
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="firstname" v-model="firstname">
+                    <input type="text" class="form-control" placeholder="firstname" v-model="name">
                     <div v-show="firstnameError" class="text-danger"> 
-                    ... the firstname is short
+                    ... the name is short
                     </div>
                 </div>
                 
@@ -53,14 +53,14 @@
 export default {
 data(){
     return{
-        firstname:'',
+        name:'',
         password:'',
         email:'',
     }
 },
 computed:{
     firstnameError(){
-        return this.firstname.length > 0 && this.firstname.length < 4 
+        return this.name.length > 0 && this.name.length < 4 
     },
     emailError(){
         return !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) && this.email.length > 0
@@ -69,14 +69,15 @@ computed:{
         return this.password.length > 0 && this.password.length < 7
     },
     isFromValid(){
-        return this.firstname.length > 4 &&
+        return this.name.length > 4 &&
          (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) && this.password.length > 5
     }
 },
 methods:{
     RegisterFunction(){
         // console.log(this.$store.state.userToken);
-        console.log(this.$store.getters.isLogged);
+        let {name,email,password} = this ; 
+        this.$store.dispatch('RegisterUser',{name,email,password})
     }
 }
 }
