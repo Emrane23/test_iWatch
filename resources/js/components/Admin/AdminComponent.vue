@@ -8,10 +8,10 @@
                             <h2>Manage <b>Posts</b></h2>
                         </div>
                         <div class="col-sm-6">
-                            <a href="#addPostModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Post</span></a>
+                            <a href="#addPostModal" class="btn btn-success" data-toggle="modal"> <span>Add New Post</span></a>
 
-                            <a href="#deletePostModal" v-if="selectedPosts.length" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
-                            <a href="#deletePostModalnopost" v-if="!selectedPosts.length" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                            <!-- <a href="#deletePostModal" v-if="selectedPosts.length" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                            <a href="#deletePostModalnopost" v-if="!selectedPosts.length" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a> -->
                         </div>
                     </div>
                 </div>
@@ -33,28 +33,27 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
+                    <tbody v-if="posts.data">
+                        <tr v-for="(post,index) in posts.data" :key="index">
                             <td>
-                                <span class="custom-checkbox">
+                                <!-- <span class="custom-checkbox">
                                     <input type="checkbox" :id="'checkbox1'+index"
                                     name="options[]" value="1">
                                     <label :for="'checkbox1'+index"></label>
-                                </span>
+                                </span> -->
                             </td>
-                            <td>post title</td>
-                            <td>post body </td>
+                            <td>{{ post.title }}</td>
+                            <td>{{ post.body.substr(0,150) }} </td>
                             <td>
-                                <span class="badge badge-info p-1 mb-1">category name</span>
+                                <span class="badge badge-info p-1 mb-1">{{ post.category.name }}</span>
                             </td>
                             <td>
-                                <img  style="width:100px;height:60px;border:1px solid #e7e7e7" alt="">
+                                <img :src="'img/' + post.image" style="width:100px;height:60px;border:1px solid #e7e7e7" alt="">
                             </td>
-                            <td>post creator</td>
+                            <td>{{ post.user.name }}</td>
                             <td>
-                                <a href="#editPostModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a href="#deletePostModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                <router-link :to="'/post/'+post.slug" class="" target="_blank"><i class="material-icons" data-toggle="tooltip" title="Delete">&#128065;</i></router-link>
+                                <a href="#editPostModal" class="edit" @click="updatePost(post,$event)" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <router-link :to="'/post/'+post.id" class="" target="_blank"><i class="material-icons" data-toggle="tooltip" title="Delete">&#128065;</i></router-link>
                             </td>
                         </tr>
 
@@ -63,7 +62,7 @@
                 </table>
                 <div class="clearfix">
                     <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                    <pagination :data="posts"></pagination>
+                    <pagination :data="posts" @pagination-change-page="getPosts"></pagination>
                 </div>
             </div>
         </div>
@@ -79,25 +78,25 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>title</label>
-                                <input type="text" class="form-control" required>
+                                <input type="text" class="form-control" v-model="title">
                             </div>
                             <div class="form-group">
                                 <label>body</label>
-                                <textarea name="" cols="30" class="form-control" rows="10"></textarea>
+                                <textarea name="" cols="30" class="form-control" rows="10" v-model="body"></textarea>
                             </div>
                             <div class="form-group">
                                 <label>category</label>
-                                <select name="" class="form-control">
-                                    <option value="0" disabled selected>choose category</option>
+                                <select name="" class="form-control" v-model="category">
+                                    <option value="0" disabled selcted>choose category</option>
 
-                                    <option value="1" >
-                                      some category name
+                                    <option :value="category.id" v-for="category in categories" :key="category.id">
+                                      {{category.name}}
                                     </option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>image</label>
-                                <input type="file" class="form-control" required>
+                                <input type="file" class="form-control" required @change="onChangeImage">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -109,7 +108,7 @@
             </div>
         </div>
         <editpost></editpost>
-        <!-- Delete Modal HTML -->
+        <!-- Delete Modal HTML
         <div id="deletePostModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -131,8 +130,8 @@
                 </div>
             </div>
         </div>
-        <!-- Delete Modal HTML -->
-        <div id="deletePostModalnopost" class="modal fade">
+        Delete Modal HTML -->
+        <!-- <div id="deletePostModalnopost" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form>
@@ -146,12 +145,78 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> --> 
 
     </div>
 </template>
 
 <script>
+import editpost from './EditPostComponent.vue'
+export default {
+    data(){
+        return{
+            posts:{},
+            title:'',
+            body:'',
+            image:'',
+            category:'',
+            categories:[]
+        }
+    },
+    components:{
+        editpost
+    },
+    created(){
+        this.getPosts();
+        this.getCategories();
+    },
+    methods:{
+        getPosts(page = 1) {
+      axios
+        .get("/api/admin/posts?page="+page)
+        .then((res) => {
+          this.posts = res.data;
+          localStorage.setItem('posts',JSON.stringify(this.posts))
+        })
+        .then((err) => console.log(err));
+    },
+    getCategories(){
+        axios.get("/api/admin/categories")
+        .then((res) => {
+          this.categories = res.data;
+          
+        })
+        .then((err) => console.log(err));
+    },
+    onChangeImage(event){
+        this.image = event.target.files[0]
+    },
+    addPost(){
+
+        let  config = {
+            headers:{"content-type": 'multipart/form-data'}
+        }
+
+        let formdata = new FormData(); 
+        formdata.append('title',this.title)
+        formdata.append('body',this.body)
+        formdata.append('image',this.image)
+        formdata.append('category',this.category)
+        axios.post('/api/admin/addpost',formdata,config).then(res => {
+            this.title = "" ;
+            this.body = "" ; 
+            this.image = "" ;
+            this.category =""; 
+            $('#addPostModal').modal('hide');
+            $('modal-backdrop').css('display','none')
+
+        })
+    },
+    updatePost(post){
+        this.$store.commit('EditPost',post)
+    }
+    }
+}
 $(document).ready(function() {
             // Activate tooltip
             $('[data-toggle="tooltip"]').tooltip();

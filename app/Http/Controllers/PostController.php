@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Post;
+use Illuminate\Support\Facades\Auth ;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -23,6 +25,19 @@ class PostController extends Controller
         return response()->json($posts);
     }
 
+    public function deletePost($id)
+    {
+       $post = Post::where('id',$id)->with('user')->first();
+       
+       if ($post->user->id != Auth::id()) {
+        return response()->json(['message' => 'you are not allowed!']);
+       }
+       else{
+        $post->delete();
+       }
+
+        return response()->json(['message' => 'deleted']);
+    }
     /**
      * Show the form for creating a new resource.
      *

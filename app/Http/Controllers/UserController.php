@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Post;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -53,6 +57,31 @@ class UserController extends Controller
         } else {
             return response()->json(['error' => 'UnAuthorised'], 401);
         }
+    }
+
+    public function getCategories()
+    {
+       $categories = Category::get();
+       return response()->json($categories);
+    }
+
+    public function addPost(Request $request )
+    {
+        $filename='';
+        if($request->hasFile('image')){
+            $filename = time().'.'.$request->image->getClientOriginalExtension();
+            $request->image->move(public_path('img'),$filename);
+        }
+        $post = Post::create([
+            'title' => $request->title , 
+            'body' => $request->body ,
+            'slug' =>Str::slug($request->title),
+            'category_id' => $request->category, 
+            'user_id' => Auth::id(),
+            'image' => $filename , 
+
+        ]);
+        return response()->json($post);
     }
  
     /**
