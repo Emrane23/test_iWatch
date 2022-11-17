@@ -28,6 +28,7 @@
         "vue-basic-alert": "^1.1.0",
         "vue-router": "^3.6.5",
         "vue-simple-alert": "^1.1.1",
+        "vue-sweetalert2": "^5.0.5",
         "vuex": "^2.5.0"
     }
 }

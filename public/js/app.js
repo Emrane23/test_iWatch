@@ -2030,7 +2030,38 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  created: function created() {
+    this.updateToken();
+    this.setUser();
+  },
+  methods: {
+    updateToken: function updateToken() {
+      var token = JSON.parse(localStorage.getItem('userToken'));
+      this.$store.commit('setUserToken', token);
+    },
+    setUser: function setUser() {
+      var _this = this;
+      if (this.isLogged) {
+        axios.get('/api/user').then(function (res) {
+          console.log(res.data);
+          _this.$store.commit('setUser', res.data.user);
+        });
+      }
+    },
+    logout: function logout() {
+      this.$store.commit('logout');
+    }
+  },
+  computed: {
+    isLogged: function isLogged() {
+      return this.$store.getters.isLogged;
+    },
+    isAdmin: function isAdmin() {
+      return this.$store.getters.isAdmin;
+    }
+  }
+});
 
 /***/ }),
 
@@ -2850,14 +2881,51 @@ var render = function render() {
     staticClass: "sr-only"
   }, [_vm._v("(current)")])])], 1), _vm._v(" "), _c("li", {
     staticClass: "nav-item"
-  }, [_c("router-link", {
+  }, [_vm.isAdmin ? _c("router-link", {
     staticClass: "nav-link",
     attrs: {
       to: "/admin"
     }
   }, [_vm._v("Admin\n            "), _c("span", {
     staticClass: "sr-only"
-  }, [_vm._v("(current)")])])], 1), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4)])])])]), _vm._v(" "), _c("router-view")], 1);
+  }, [_vm._v("(current)")])]) : _vm._e()], 1), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), !_vm.isLogged ? _c("li", {
+    staticClass: "nav-item register-btn reg-login-btn",
+    attrs: {
+      "data-toggle": "modal",
+      "data-target": "#register-modal"
+    }
+  }, [_c("a", {
+    staticClass: "btn btn-info nav-link",
+    attrs: {
+      href: "",
+      "data-toggle": "modal",
+      "data-target": "#register-modal"
+    }
+  }, [_vm._v("Register")])]) : _vm._e(), _vm._v(" "), !_vm.isLogged ? _c("li", {
+    staticClass: "nav-item reg-login-btn",
+    attrs: {
+      "data-toggle": "modal",
+      "data-target": "#login-modal"
+    }
+  }, [_c("a", {
+    staticClass: "btn btn-primary text-weight nav-link",
+    attrs: {
+      href: "#"
+    }
+  }, [_vm._v("login")])]) : _vm._e(), _vm._v(" "), _vm.isLogged ? _c("li", {
+    staticClass: "nav-item",
+    on: {
+      click: function click($event) {
+        $event.stopPropagation();
+        return _vm.logout.apply(null, arguments);
+      }
+    }
+  }, [_c("a", {
+    staticClass: "nav-link",
+    attrs: {
+      href: ""
+    }
+  }, [_vm._v("Logout")])]) : _vm._e()])])])]), _vm._v(" "), _c("router-view")], 1);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -2897,38 +2965,6 @@ var staticRenderFns = [function () {
       href: "contact.html"
     }
   }, [_vm._v("Contact")])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("li", {
-    staticClass: "nav-item register-btn reg-login-btn",
-    attrs: {
-      "data-toggle": "modal",
-      "data-target": "#register-modal"
-    }
-  }, [_c("a", {
-    staticClass: "btn btn-info nav-link",
-    attrs: {
-      href: "",
-      "data-toggle": "modal",
-      "data-target": "#register-modal"
-    }
-  }, [_vm._v("Register")])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("li", {
-    staticClass: "nav-item reg-login-btn",
-    attrs: {
-      "data-toggle": "modal",
-      "data-target": "#login-modal"
-    }
-  }, [_c("a", {
-    staticClass: "btn btn-primary text-weight nav-link",
-    attrs: {
-      href: "#"
-    }
-  }, [_vm._v("login")])]);
 }];
 render._withStripped = true;
 
@@ -59919,11 +59955,18 @@ Vue.use(vue_simple_alert__WEBPACK_IMPORTED_MODULE_3__["default"]);
 Vue.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
-    userToken: null
+    userToken: null,
+    user: null
   },
   getters: {
     isLogged: function isLogged(state) {
       return !!state.userToken;
+    },
+    isAdmin: function isAdmin(state) {
+      if (state.user) {
+        return state.user.is_admin;
+      }
+      return null;
     }
   },
   mutations: {
@@ -59935,6 +59978,14 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     removeUserToken: function removeUserToken(state) {
       state.userToken = null;
       localStorage.removeItem('userToken');
+    },
+    setUser: function setUser(state, user) {
+      state.user = user;
+    },
+    logout: function logout(state) {
+      state.userToken = null;
+      localStorage.removeItem('userToken');
+      window.location.pathname = "/";
     }
   },
   actions: {
@@ -59952,6 +60003,10 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       axios.post('/api/login', parametres).then(function (res) {
         console.log(res);
         commit('setUserToken', res.data.token);
+        axios.get('/api/user').then(function (res) {
+          console.log(res.data);
+          commit('setUser', res.data.user);
+        });
       })["catch"](function (err) {
         console.log(err);
       });

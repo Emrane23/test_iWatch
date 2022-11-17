@@ -62,7 +62,7 @@ computed:{
 methods:{
     LoginFunction(){
       let {email,password} = this ; 
-        this.$store.dispatch('LoginUser',{email,password})
+        this.$store.dispatch('LoginUser',{email,password}) ; 
     }
 }
 }

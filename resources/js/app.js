@@ -40,12 +40,19 @@ Vue.use(VueSimpleAlert);
 Vue.use(Vuex)
 const store = new Vuex.Store({
     state:{
-        userToken: null
+        userToken: null,
+        user: null,
     }, 
     getters:{
         isLogged(state){
             return !!state.userToken
-        }
+        },
+        isAdmin(state){
+            if (state.user) {
+                return state.user.is_admin
+            }
+         return null ;
+        },
     },
     mutations:{
         setUserToken(state, userToken){
@@ -56,6 +63,14 @@ const store = new Vuex.Store({
         removeUserToken(state){
             state.userToken = null ;
             localStorage.removeItem('userToken')
+        },
+        setUser(state,user){
+            state.user = user 
+        },
+        logout(state){
+            state.userToken = null ;
+            localStorage.removeItem('userToken');
+            window.location.pathname = "/"
         }
     },
     actions:{
@@ -71,9 +86,15 @@ const store = new Vuex.Store({
             axios.post('/api/login',parametres).then( res => {
                 console.log(res)
                 commit('setUserToken', res.data.token)
+                axios.get('/api/user')
+                .then( res => {
+                    console.log(res.data);
+                    commit('setUser',res.data.user)
+                })
             }).catch( err => {
                 console.log(err)
             })
+            
         }
     }
 })
