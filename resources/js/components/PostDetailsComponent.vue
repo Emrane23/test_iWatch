@@ -104,6 +104,7 @@ export default {
                 this.post = res.data
                 this.post_id = this.post.id
                 this.comments = this.post.comments
+                this.initializeListner()
                 // console.log(res)
             }
                 ). catch(err => console.log(err))
@@ -120,6 +121,13 @@ export default {
     updateToken(){
       let token = JSON.parse(localStorage.getItem('userToken')) 
       this.$store.commit('setUserToken',token)
+    },
+    initializeListner(){
+      Echo.private(`newComment.${this.post_id}`)
+    .listen('NewComment', (e) => {
+        console.log(e);
+        console.log('new listen to event');
+    });
     }
   },
   computed:{

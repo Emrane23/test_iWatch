@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Events\NewComment;
 use Illuminate\Http\Request;
-use Auth ;
+use Illuminate\Support\Facades\Auth ;
 
 class CommentController extends Controller
 {
@@ -41,6 +42,7 @@ class CommentController extends Controller
             'user_id' => Auth::id(),
             'post_id' => $request->post_id
         ]); 
+        broadcast(new NewComment($comment->user , $comment));
         return response()->json([
             'id' => $comment->id ,
             'body' => $comment->body ,

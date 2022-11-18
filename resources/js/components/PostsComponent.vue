@@ -39,7 +39,7 @@
             
           </ul>
         </div>
-        <i class="fa fa-trash"><a  @click="deletePost(post.id)" >delete</a></i>
+        <i class="fa fa-trash"></i><a  @click="deletePost(post.id)" >delete</a>
       </div>
       <!-- Pagination -->
       <pagination :data="posts" @pagination-change-page="getPosts"></pagination>

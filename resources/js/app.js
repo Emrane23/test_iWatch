@@ -70,6 +70,7 @@ const store = new Vuex.Store({
         },
         setUser(state,user){
             state.user = user 
+            Echo.connector.pusher.config.auth.headers.Authorization=`Bearer ${state.userToken}`;
         },
         logout(state){
             state.userToken = null ;
@@ -95,7 +96,7 @@ const store = new Vuex.Store({
                 commit('setUserToken', res.data.token)
                 axios.get('/api/user')
                 .then( res => {
-                    console.log(res.data);
+                    
                     commit('setUser',res.data.user)
                 })
             }).catch( err => {
