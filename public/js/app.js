@@ -2326,7 +2326,7 @@ __webpack_require__.r(__webpack_exports__);
         post_id: post_id
       }).then(function (res) {
         _this2.comments.unshift(res.data);
-        _this2.$alert("you comment Added successfully");
+        // this.$alert("you comment Added successfully");
       })["catch"](function (err) {
         return console.log(err);
       });
@@ -2337,9 +2337,14 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.commit('setUserToken', token);
     },
     initializeListner: function initializeListner() {
-      Echo["private"]("newComment.".concat(this.post_id)).listen('NewComment', function (e) {
-        console.log(e);
-        console.log('new listen to event');
+      var _this3 = this;
+      window.Echo["private"]("newComment.".concat(this.post_id)).listen('NewComment', function (e) {
+        console.log('event work');
+        _this3.comments.unshift(e.comment);
+        document.querySelectorAll('.comment').forEach(function (item) {
+          item.classList.remove('new');
+        });
+        document.querySelectorAll('.comment')[0].classList.add('new');
       });
     }
   },
@@ -3697,7 +3702,7 @@ var render = function render() {
   }, [_vm._v("Submit")])])])]) : _vm._e(), _vm._v(" "), _vm._l(_vm.post.comments, function (comment, index) {
     return _c("div", {
       key: index,
-      staticClass: "media mb-4"
+      staticClass: "media mb-4 comment"
     }, [_c("img", {
       staticClass: "d-flex mr-3 rounded-circle",
       staticStyle: {
@@ -8422,6 +8427,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, "\n#cont {\n        color: #566787;\n        background: #f5f5f5;\n        font-family: 'Varela Round', sans-serif;\n        font-size: 13px;\n}\n.table-wrapper {\n        background: #fff;\n        padding: 20px 25px;\n        margin: 30px 0;\n        border-radius: 3px;\n        box-shadow: 0 1px 1px rgba(0, 0, 0, .05);\n}\n.table-title {\n        padding-bottom: 15px;\n        background: #435d7d;\n        color: #fff;\n        padding: 16px 30px;\n        margin: -20px -25px 10px;\n        border-radius: 3px 3px 0 0;\n}\n.table-title h2 {\n        margin: 5px 0 0;\n        font-size: 24px;\n}\n.table-title .btn-group {\n        float: right;\n}\n.table-title .btn {\n        color: #fff;\n        float: right;\n        font-size: 13px;\n        border: none;\n        min-width: 50px;\n        border-radius: 2px;\n        border: none;\n        outline: none !important;\n        margin-left: 10px;\n}\n.table-title .btn i {\n        float: left;\n        font-size: 21px;\n        margin-right: 5px;\n}\n.table-title .btn span {\n        float: left;\n        margin-top: 2px;\n}\ntable.table tr th,\n    table.table tr td {\n        border-color: #e9e9e9;\n        padding: 12px 15px;\n        vertical-align: middle;\n}\ntable.table tr th:first-child {\n        width: 60px;\n}\ntable.table tr th:last-child {\n        width: 100px;\n}\ntable.table-striped tbody tr:nth-of-type(odd) {\n        background-color: #fcfcfc;\n}\ntable.table-striped.table-hover tbody tr:hover {\n        background: #f5f5f5;\n}\ntable.table th i {\n        font-size: 13px;\n        margin: 0 5px;\n        cursor: pointer;\n}\ntable.table td:last-child i {\n        opacity: 0.9;\n        font-size: 22px;\n        margin: 0 5px;\n}\ntable.table td a {\n        font-weight: bold;\n        color: #566787;\n        display: inline-block;\n        text-decoration: none;\n        outline: none !important;\n}\ntable.table td a:hover {\n        color: #2196F3;\n}\ntable.table td a.edit {\n        color: #FFC107;\n}\ntable.table td a.delete {\n        color: #F44336;\n}\ntable.table td i {\n        font-size: 19px;\n}\ntable.table .avatar {\n        border-radius: 50%;\n        vertical-align: middle;\n        margin-right: 10px;\n}\n.pagination {\n        float: right;\n        margin: 0 0 5px;\n}\n.pagination li a {\n        border: none;\n        font-size: 13px;\n        min-width: 30px;\n        min-height: 30px;\n        color: #999;\n        margin: 0 2px;\n        line-height: 30px;\n        border-radius: 2px !important;\n        text-align: center;\n        padding: 0 6px;\n}\n.pagination li a:hover {\n        color: #666;\n}\n.pagination li.active a,\n    .pagination li.active a.page-link {\n        background: #03A9F4;\n}\n.pagination li.active a:hover {\n        background: #0397d6;\n}\n.pagination li.disabled i {\n        color: #ccc;\n}\n.pagination li i {\n        font-size: 16px;\n        padding-top: 6px\n}\n.hint-text {\n        float: left;\n        margin-top: 10px;\n        font-size: 13px;\n}\n    /* Custom\ncheckbox */\n.custom-checkbox {\n        position: relative;\n}\n.custom-checkbox input[type=\"checkbox\"] {\n        opacity: 0;\n        position: absolute;\n        margin: 5px 0 0 3px;\n        z-index: 9;\n}\n.custom-checkbox label:before {\n        width: 18px;\n        height: 18px;\n}\n.custom-checkbox label:before {\n        content: '';\n        margin-right: 10px;\n        display: inline-block;\n        vertical-align: text-top;\n        background: white;\n        border: 1px solid #bbb;\n        border-radius: 2px;\n        box-sizing: border-box;\n        z-index: 2;\n}\n.custom-checkbox input[type=\"checkbox\"]:checked+label:after {\n        content: '';\n        position: absolute;\n        left: 6px;\n        top: 3px;\n        width: 6px;\n        height: 11px;\n        border: solid #000;\n        border-width: 0 3px 3px 0;\n        transform: inherit;\n        z-index: 3;\n        transform: rotateZ(45deg);\n}\n.custom-checkbox input[type=\"checkbox\"]:checked+label:before {\n        border-color: #03A9F4;\n        background: #03A9F4;\n}\n.custom-checkbox input[type=\"checkbox\"]:checked+label:after {\n        border-color: #fff;\n}\n.custom-checkbox input[type=\"checkbox\"]:disabled+label:before {\n        color: #b8b8b8;\n        cursor: auto;\n        box-shadow: none;\n        background: #ddd;\n}\n    /* Modal styles */\n.modal .modal-dialog {\n        max-width: 400px;\n}\n.modal .modal-header,\n    .modal .modal-body,\n    .modal .modal-footer {\n        padding: 20px 30px;\n}\n.modal .modal-content {\n        border-radius: 3px;\n}\n.modal .modal-footer {\n        background: #ecf0f1;\n        border-radius: 0 0 3px 3px;\n}\n.modal .modal-title {\n        display: inline-block;\n}\n.modal .form-control {\n        border-radius: 2px;\n        box-shadow: none;\n        border-color: #dddddd;\n}\n.modal textarea.form-control {\n        resize: vertical;\n}\n.modal .btn {\n        border-radius: 2px;\n        min-width: 100px;\n}\n.modal form label {\n        font-weight: normal;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostDetailsComponent.vue?vue&type=style&index=0&id=617505f4&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostDetailsComponent.vue?vue&type=style&index=0&id=617505f4&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.comment{\r\n  padding: 0.5rem;\r\n  background: #fff;\n}\n.comment.new{\r\n  background-color: #fff;\r\n  animation-name: newComment ;\r\n  -webkit-animation-name: newComment ;\r\n  animation-duration: 6s;\r\n  -webkit-animation-duration: 6s;\r\n  animation-iteration-count: 1;\r\n  -webkit-animation-iteration-count: 1;\n}\n@keyframes newComment {\nfrom {background-color: rgb(241, 245,24);}\nto {background-color: inherit;}\n}\r\n", ""]);
 
 // exports
 
@@ -42031,7 +42055,7 @@ process.umask = function() { return 0; };
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
- * Pusher JavaScript Library v7.5.0
+ * Pusher JavaScript Library v6.0.3
  * https://pusher.com/
  *
  * Copyright 2020, Pusher
@@ -42415,7 +42439,7 @@ exports.maxDecodedLength = function (length) {
 exports.decodedLength = function (s) {
     return stdCoder.decodedLength(s);
 };
-
+//# sourceMappingURL=base64.js.map
 
 /***/ }),
 /* 1 */
@@ -42570,7 +42594,7 @@ function decode(arr) {
     return chars.join("");
 }
 exports.decode = decode;
-
+//# sourceMappingURL=utf8.js.map
 
 /***/ }),
 /* 2 */
@@ -42585,7 +42609,6 @@ module.exports = __webpack_require__(3).default;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./src/runtimes/web/dom/script_receiver_factory.ts
@@ -42620,7 +42643,7 @@ var ScriptReceivers = new ScriptReceiverFactory('_pusher_script_', 'Pusher.Scrip
 
 // CONCATENATED MODULE: ./src/core/defaults.ts
 var Defaults = {
-    VERSION: "7.5.0",
+    VERSION: "6.0.3",
     PROTOCOL: 7,
     wsPort: 80,
     wssPort: 443,
@@ -42636,14 +42659,6 @@ var Defaults = {
     pongTimeout: 30000,
     unavailableTimeout: 10000,
     cluster: 'mt1',
-    userAuthentication: {
-        endpoint: '/pusher/user-auth',
-        transport: 'ajax'
-    },
-    channelAuthorization: {
-        endpoint: '/pusher/auth',
-        transport: 'ajax'
-    },
     cdn_http: "http://js.pusher.com",
     cdn_https: "https://js.pusher.com",
     dependency_suffix: ""
@@ -42716,215 +42731,6 @@ var Dependencies = new dependency_loader({
     receivers: DependenciesReceivers
 });
 
-// CONCATENATED MODULE: ./src/core/utils/url_store.ts
-var urlStore = {
-    baseUrl: 'https://pusher.com',
-    urls: {
-        authenticationEndpoint: {
-            path: '/docs/channels/server_api/authenticating_users'
-        },
-        authorizationEndpoint: {
-            path: '/docs/channels/server_api/authorizing-users/'
-        },
-        javascriptQuickStart: {
-            path: '/docs/javascript_quick_start'
-        },
-        triggeringClientEvents: {
-            path: '/docs/client_api_guide/client_events#trigger-events'
-        },
-        encryptedChannelSupport: {
-            fullUrl: 'https://github.com/pusher/pusher-js/tree/cc491015371a4bde5743d1c87a0fbac0feb53195#encrypted-channel-support'
-        }
-    }
-};
-var buildLogSuffix = function (key) {
-    var urlPrefix = 'See:';
-    var urlObj = urlStore.urls[key];
-    if (!urlObj)
-        return '';
-    var url;
-    if (urlObj.fullUrl) {
-        url = urlObj.fullUrl;
-    }
-    else if (urlObj.path) {
-        url = urlStore.baseUrl + urlObj.path;
-    }
-    if (!url)
-        return '';
-    return urlPrefix + " " + url;
-};
-/* harmony default export */ var url_store = ({ buildLogSuffix: buildLogSuffix });
-
-// CONCATENATED MODULE: ./src/core/auth/options.ts
-var AuthRequestType;
-(function (AuthRequestType) {
-    AuthRequestType["UserAuthentication"] = "user-authentication";
-    AuthRequestType["ChannelAuthorization"] = "channel-authorization";
-})(AuthRequestType || (AuthRequestType = {}));
-
-// CONCATENATED MODULE: ./src/core/errors.ts
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var BadEventName = (function (_super) {
-    __extends(BadEventName, _super);
-    function BadEventName(msg) {
-        var _newTarget = this.constructor;
-        var _this = _super.call(this, msg) || this;
-        Object.setPrototypeOf(_this, _newTarget.prototype);
-        return _this;
-    }
-    return BadEventName;
-}(Error));
-
-var BadChannelName = (function (_super) {
-    __extends(BadChannelName, _super);
-    function BadChannelName(msg) {
-        var _newTarget = this.constructor;
-        var _this = _super.call(this, msg) || this;
-        Object.setPrototypeOf(_this, _newTarget.prototype);
-        return _this;
-    }
-    return BadChannelName;
-}(Error));
-
-var RequestTimedOut = (function (_super) {
-    __extends(RequestTimedOut, _super);
-    function RequestTimedOut(msg) {
-        var _newTarget = this.constructor;
-        var _this = _super.call(this, msg) || this;
-        Object.setPrototypeOf(_this, _newTarget.prototype);
-        return _this;
-    }
-    return RequestTimedOut;
-}(Error));
-
-var TransportPriorityTooLow = (function (_super) {
-    __extends(TransportPriorityTooLow, _super);
-    function TransportPriorityTooLow(msg) {
-        var _newTarget = this.constructor;
-        var _this = _super.call(this, msg) || this;
-        Object.setPrototypeOf(_this, _newTarget.prototype);
-        return _this;
-    }
-    return TransportPriorityTooLow;
-}(Error));
-
-var TransportClosed = (function (_super) {
-    __extends(TransportClosed, _super);
-    function TransportClosed(msg) {
-        var _newTarget = this.constructor;
-        var _this = _super.call(this, msg) || this;
-        Object.setPrototypeOf(_this, _newTarget.prototype);
-        return _this;
-    }
-    return TransportClosed;
-}(Error));
-
-var UnsupportedFeature = (function (_super) {
-    __extends(UnsupportedFeature, _super);
-    function UnsupportedFeature(msg) {
-        var _newTarget = this.constructor;
-        var _this = _super.call(this, msg) || this;
-        Object.setPrototypeOf(_this, _newTarget.prototype);
-        return _this;
-    }
-    return UnsupportedFeature;
-}(Error));
-
-var UnsupportedTransport = (function (_super) {
-    __extends(UnsupportedTransport, _super);
-    function UnsupportedTransport(msg) {
-        var _newTarget = this.constructor;
-        var _this = _super.call(this, msg) || this;
-        Object.setPrototypeOf(_this, _newTarget.prototype);
-        return _this;
-    }
-    return UnsupportedTransport;
-}(Error));
-
-var UnsupportedStrategy = (function (_super) {
-    __extends(UnsupportedStrategy, _super);
-    function UnsupportedStrategy(msg) {
-        var _newTarget = this.constructor;
-        var _this = _super.call(this, msg) || this;
-        Object.setPrototypeOf(_this, _newTarget.prototype);
-        return _this;
-    }
-    return UnsupportedStrategy;
-}(Error));
-
-var HTTPAuthError = (function (_super) {
-    __extends(HTTPAuthError, _super);
-    function HTTPAuthError(status, msg) {
-        var _newTarget = this.constructor;
-        var _this = _super.call(this, msg) || this;
-        _this.status = status;
-        Object.setPrototypeOf(_this, _newTarget.prototype);
-        return _this;
-    }
-    return HTTPAuthError;
-}(Error));
-
-
-// CONCATENATED MODULE: ./src/runtimes/isomorphic/auth/xhr_auth.ts
-
-
-
-
-var ajax = function (context, query, authOptions, authRequestType, callback) {
-    var xhr = runtime.createXHR();
-    xhr.open('POST', authOptions.endpoint, true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    for (var headerName in authOptions.headers) {
-        xhr.setRequestHeader(headerName, authOptions.headers[headerName]);
-    }
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                var data = void 0;
-                var parsed = false;
-                try {
-                    data = JSON.parse(xhr.responseText);
-                    parsed = true;
-                }
-                catch (e) {
-                    callback(new HTTPAuthError(200, "JSON returned from " + authRequestType.toString() + " endpoint was invalid, yet status code was 200. Data was: " + xhr.responseText), null);
-                }
-                if (parsed) {
-                    callback(null, data);
-                }
-            }
-            else {
-                var suffix = '';
-                switch (authRequestType) {
-                    case AuthRequestType.UserAuthentication:
-                        suffix = url_store.buildLogSuffix('authenticationEndpoint');
-                        break;
-                    case AuthRequestType.ChannelAuthorization:
-                        suffix = "Clients must be authorized to join private or presence channels. " + url_store.buildLogSuffix('authorizationEndpoint');
-                        break;
-                }
-                callback(new HTTPAuthError(xhr.status, "Unable to retrieve auth string from " + authRequestType.toString() + " endpoint - " +
-                    ("received status: " + xhr.status + " from " + authOptions.endpoint + ". " + suffix)), null);
-            }
-        }
-    };
-    xhr.send(query);
-    return xhr;
-};
-/* harmony default export */ var xhr_auth = (ajax);
-
 // CONCATENATED MODULE: ./src/core/base64.ts
 function encode(s) {
     return btoa(utob(s));
@@ -42991,7 +42797,7 @@ var Timer = (function () {
 /* harmony default export */ var abstract_timer = (Timer);
 
 // CONCATENATED MODULE: ./src/core/utils/timers/index.ts
-var timers_extends = (undefined && undefined.__extends) || (function () {
+var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -43012,7 +42818,7 @@ function timers_clearInterval(timer) {
     window.clearInterval(timer);
 }
 var OneOffTimer = (function (_super) {
-    timers_extends(OneOffTimer, _super);
+    __extends(OneOffTimer, _super);
     function OneOffTimer(delay, callback) {
         return _super.call(this, setTimeout, timers_clearTimeout, delay, function (timer) {
             callback();
@@ -43023,7 +42829,7 @@ var OneOffTimer = (function (_super) {
 }(abstract_timer));
 
 var PeriodicTimer = (function (_super) {
-    timers_extends(PeriodicTimer, _super);
+    __extends(PeriodicTimer, _super);
     function PeriodicTimer(delay, callback) {
         return _super.call(this, setInterval, timers_clearInterval, delay, function (timer) {
             callback();
@@ -43325,26 +43131,104 @@ var logger_Logger = (function () {
 }());
 /* harmony default export */ var logger = (new logger_Logger());
 
+// CONCATENATED MODULE: ./src/core/utils/url_store.ts
+var urlStore = {
+    baseUrl: 'https://pusher.com',
+    urls: {
+        authenticationEndpoint: {
+            path: '/docs/authenticating_users'
+        },
+        javascriptQuickStart: {
+            path: '/docs/javascript_quick_start'
+        },
+        triggeringClientEvents: {
+            path: '/docs/client_api_guide/client_events#trigger-events'
+        },
+        encryptedChannelSupport: {
+            fullUrl: 'https://github.com/pusher/pusher-js/tree/cc491015371a4bde5743d1c87a0fbac0feb53195#encrypted-channel-support'
+        }
+    }
+};
+var buildLogSuffix = function (key) {
+    var urlPrefix = 'See:';
+    var urlObj = urlStore.urls[key];
+    if (!urlObj)
+        return '';
+    var url;
+    if (urlObj.fullUrl) {
+        url = urlObj.fullUrl;
+    }
+    else if (urlObj.path) {
+        url = urlStore.baseUrl + urlObj.path;
+    }
+    if (!url)
+        return '';
+    return urlPrefix + " " + url;
+};
+/* harmony default export */ var url_store = ({ buildLogSuffix: buildLogSuffix });
+
+// CONCATENATED MODULE: ./src/runtimes/isomorphic/auth/xhr_auth.ts
+
+
+
+var ajax = function (context, socketId, callback) {
+    var self = this, xhr;
+    xhr = runtime.createXHR();
+    xhr.open('POST', self.options.authEndpoint, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    for (var headerName in this.authOptions.headers) {
+        xhr.setRequestHeader(headerName, this.authOptions.headers[headerName]);
+    }
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var data, parsed = false;
+                try {
+                    data = JSON.parse(xhr.responseText);
+                    parsed = true;
+                }
+                catch (e) {
+                    callback(true, 'JSON returned from auth endpoint was invalid, yet status code was 200. Data was: ' +
+                        xhr.responseText);
+                }
+                if (parsed) {
+                    callback(false, data);
+                }
+            }
+            else {
+                var suffix = url_store.buildLogSuffix('authenticationEndpoint');
+                logger.error('Unable to retrieve auth string from auth endpoint - ' +
+                    ("received status " + xhr.status + " from " + self.options.authEndpoint + ". ") +
+                    ("Clients must be authenticated to join private or presence channels. " + suffix));
+                callback(true, xhr.status);
+            }
+        }
+    };
+    xhr.send(this.composeQuery(socketId));
+    return xhr;
+};
+/* harmony default export */ var xhr_auth = (ajax);
+
 // CONCATENATED MODULE: ./src/runtimes/web/auth/jsonp_auth.ts
 
-var jsonp = function (context, query, authOptions, authRequestType, callback) {
-    if (authOptions.headers !== undefined) {
-        logger.warn("To send headers with the " + authRequestType.toString() + " request, you must use AJAX, rather than JSONP.");
+var jsonp = function (context, socketId, callback) {
+    if (this.authOptions.headers !== undefined) {
+        logger.warn('To send headers with the auth request, you must use AJAX, rather than JSONP.');
     }
     var callbackName = context.nextAuthCallbackID.toString();
     context.nextAuthCallbackID++;
     var document = context.getDocument();
     var script = document.createElement('script');
     context.auth_callbacks[callbackName] = function (data) {
-        callback(null, data);
+        callback(false, data);
     };
     var callback_name = "Pusher.auth_callbacks['" + callbackName + "']";
     script.src =
-        authOptions.endpoint +
+        this.options.authEndpoint +
             '?callback=' +
             encodeURIComponent(callback_name) +
             '&' +
-            query;
+            this.composeQuery(socketId);
     var head = document.getElementsByTagName('head')[0] || document.documentElement;
     head.insertBefore(script, head.firstChild);
 };
@@ -44171,7 +44055,7 @@ var connection_Connection = (function (_super) {
                 _this.emit('activity');
             },
             error: function (error) {
-                _this.emit('error', error);
+                _this.emit('error', { type: 'WebSocketError', error: error });
             },
             closed: function (closeEvent) {
                 unbindListeners();
@@ -44263,6 +44147,42 @@ var handshake_Handshake = (function () {
 }());
 /* harmony default export */ var connection_handshake = (handshake_Handshake);
 
+// CONCATENATED MODULE: ./src/core/auth/pusher_authorizer.ts
+
+var pusher_authorizer_PusherAuthorizer = (function () {
+    function PusherAuthorizer(channel, options) {
+        this.channel = channel;
+        var authTransport = options.authTransport;
+        if (typeof runtime.getAuthorizers()[authTransport] === 'undefined') {
+            throw "'" + authTransport + "' is not a recognized auth transport";
+        }
+        this.type = authTransport;
+        this.options = options;
+        this.authOptions = options.auth || {};
+    }
+    PusherAuthorizer.prototype.composeQuery = function (socketId) {
+        var query = 'socket_id=' +
+            encodeURIComponent(socketId) +
+            '&channel_name=' +
+            encodeURIComponent(this.channel.name);
+        for (var i in this.authOptions.params) {
+            query +=
+                '&' +
+                    encodeURIComponent(i) +
+                    '=' +
+                    encodeURIComponent(this.authOptions.params[i]);
+        }
+        return query;
+    };
+    PusherAuthorizer.prototype.authorize = function (socketId, callback) {
+        PusherAuthorizer.authorizers =
+            PusherAuthorizer.authorizers || runtime.getAuthorizers();
+        PusherAuthorizer.authorizers[this.type].call(this, runtime, socketId, callback);
+    };
+    return PusherAuthorizer;
+}());
+/* harmony default export */ var pusher_authorizer = (pusher_authorizer_PusherAuthorizer);
+
 // CONCATENATED MODULE: ./src/core/timeline/timeline_sender.ts
 
 var timeline_sender_TimelineSender = (function () {
@@ -44279,6 +44199,98 @@ var timeline_sender_TimelineSender = (function () {
     return TimelineSender;
 }());
 /* harmony default export */ var timeline_sender = (timeline_sender_TimelineSender);
+
+// CONCATENATED MODULE: ./src/core/errors.ts
+var errors_extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var BadEventName = (function (_super) {
+    errors_extends(BadEventName, _super);
+    function BadEventName(msg) {
+        var _newTarget = this.constructor;
+        var _this = _super.call(this, msg) || this;
+        Object.setPrototypeOf(_this, _newTarget.prototype);
+        return _this;
+    }
+    return BadEventName;
+}(Error));
+
+var RequestTimedOut = (function (_super) {
+    errors_extends(RequestTimedOut, _super);
+    function RequestTimedOut(msg) {
+        var _newTarget = this.constructor;
+        var _this = _super.call(this, msg) || this;
+        Object.setPrototypeOf(_this, _newTarget.prototype);
+        return _this;
+    }
+    return RequestTimedOut;
+}(Error));
+
+var TransportPriorityTooLow = (function (_super) {
+    errors_extends(TransportPriorityTooLow, _super);
+    function TransportPriorityTooLow(msg) {
+        var _newTarget = this.constructor;
+        var _this = _super.call(this, msg) || this;
+        Object.setPrototypeOf(_this, _newTarget.prototype);
+        return _this;
+    }
+    return TransportPriorityTooLow;
+}(Error));
+
+var TransportClosed = (function (_super) {
+    errors_extends(TransportClosed, _super);
+    function TransportClosed(msg) {
+        var _newTarget = this.constructor;
+        var _this = _super.call(this, msg) || this;
+        Object.setPrototypeOf(_this, _newTarget.prototype);
+        return _this;
+    }
+    return TransportClosed;
+}(Error));
+
+var UnsupportedFeature = (function (_super) {
+    errors_extends(UnsupportedFeature, _super);
+    function UnsupportedFeature(msg) {
+        var _newTarget = this.constructor;
+        var _this = _super.call(this, msg) || this;
+        Object.setPrototypeOf(_this, _newTarget.prototype);
+        return _this;
+    }
+    return UnsupportedFeature;
+}(Error));
+
+var UnsupportedTransport = (function (_super) {
+    errors_extends(UnsupportedTransport, _super);
+    function UnsupportedTransport(msg) {
+        var _newTarget = this.constructor;
+        var _this = _super.call(this, msg) || this;
+        Object.setPrototypeOf(_this, _newTarget.prototype);
+        return _this;
+    }
+    return UnsupportedTransport;
+}(Error));
+
+var UnsupportedStrategy = (function (_super) {
+    errors_extends(UnsupportedStrategy, _super);
+    function UnsupportedStrategy(msg) {
+        var _newTarget = this.constructor;
+        var _this = _super.call(this, msg) || this;
+        Object.setPrototypeOf(_this, _newTarget.prototype);
+        return _this;
+    }
+    return UnsupportedStrategy;
+}(Error));
+
 
 // CONCATENATED MODULE: ./src/core/channels/channel.ts
 var channel_extends = (undefined && undefined.__extends) || (function () {
@@ -44298,7 +44310,6 @@ var channel_extends = (undefined && undefined.__extends) || (function () {
 
 
 
-
 var channel_Channel = (function (_super) {
     channel_extends(Channel, _super);
     function Channel(name, pusher) {
@@ -44313,7 +44324,7 @@ var channel_Channel = (function (_super) {
         return _this;
     }
     Channel.prototype.authorize = function (socketId, callback) {
-        return callback(null, { auth: '' });
+        return callback(false, { auth: '' });
     };
     Channel.prototype.trigger = function (event, data) {
         if (event.indexOf('client-') !== 0) {
@@ -44335,9 +44346,6 @@ var channel_Channel = (function (_super) {
         if (eventName === 'pusher_internal:subscription_succeeded') {
             this.handleSubscriptionSucceededEvent(event);
         }
-        else if (eventName === 'pusher_internal:subscription_count') {
-            this.handleSubscriptionCountEvent(event);
-        }
         else if (eventName.indexOf('pusher_internal:') !== 0) {
             var metadata = {};
             this.emit(eventName, data, metadata);
@@ -44353,12 +44361,6 @@ var channel_Channel = (function (_super) {
             this.emit('pusher:subscription_succeeded', event.data);
         }
     };
-    Channel.prototype.handleSubscriptionCountEvent = function (event) {
-        if (event.data.subscription_count) {
-            this.subscriptionCount = event.data.subscription_count;
-        }
-        this.emit('pusher:subscription_count', event.data);
-    };
     Channel.prototype.subscribe = function () {
         var _this = this;
         if (this.subscribed) {
@@ -44368,14 +44370,11 @@ var channel_Channel = (function (_super) {
         this.subscriptionCancelled = false;
         this.authorize(this.pusher.connection.socket_id, function (error, data) {
             if (error) {
-                _this.subscriptionPending = false;
-                logger.error(error.toString());
-                _this.emit('pusher:subscription_error', Object.assign({}, {
-                    type: 'AuthError',
-                    error: error.message
-                }, error instanceof HTTPAuthError ? { status: error.status } : {}));
+                logger.error(data);
+                _this.emit('pusher:subscription_error', data);
             }
             else {
+                data = data;
                 _this.pusher.send_event('pusher:subscribe', {
                     auth: data.auth,
                     channel_data: data.channel_data,
@@ -44415,20 +44414,19 @@ var private_channel_extends = (undefined && undefined.__extends) || (function ()
     };
 })();
 
-var PrivateChannel = (function (_super) {
+
+var private_channel_PrivateChannel = (function (_super) {
     private_channel_extends(PrivateChannel, _super);
     function PrivateChannel() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     PrivateChannel.prototype.authorize = function (socketId, callback) {
-        return this.pusher.config.channelAuthorizer({
-            channelName: this.name,
-            socketId: socketId
-        }, callback);
+        var authorizer = factory.createAuthorizer(this, this.pusher.config);
+        return authorizer.authorize(socketId, callback);
     };
     return PrivateChannel;
 }(channels_channel));
-/* harmony default export */ var private_channel = (PrivateChannel);
+/* harmony default export */ var private_channel = (private_channel_PrivateChannel);
 
 // CONCATENATED MODULE: ./src/core/channels/members.ts
 
@@ -44500,42 +44498,6 @@ var presence_channel_extends = (undefined && undefined.__extends) || (function (
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 
 
 
@@ -44549,38 +44511,21 @@ var presence_channel_PresenceChannel = (function (_super) {
     }
     PresenceChannel.prototype.authorize = function (socketId, callback) {
         var _this = this;
-        _super.prototype.authorize.call(this, socketId, function (error, authData) { return __awaiter(_this, void 0, void 0, function () {
-            var channelData, suffix;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!!error) return [3, 3];
-                        authData = authData;
-                        if (!(authData.channel_data != null)) return [3, 1];
-                        channelData = JSON.parse(authData.channel_data);
-                        this.members.setMyID(channelData.user_id);
-                        return [3, 3];
-                    case 1: return [4, this.pusher.user.signinDonePromise];
-                    case 2:
-                        _a.sent();
-                        if (this.pusher.user.user_data != null) {
-                            this.members.setMyID(this.pusher.user.user_data.id);
-                        }
-                        else {
-                            suffix = url_store.buildLogSuffix('authorizationEndpoint');
-                            logger.error("Invalid auth response for channel '" + this.name + "', " +
-                                ("expected 'channel_data' field. " + suffix + ", ") +
-                                "or the user should be signed in.");
-                            callback('Invalid auth response');
-                            return [2];
-                        }
-                        _a.label = 3;
-                    case 3:
-                        callback(error, authData);
-                        return [2];
+        _super.prototype.authorize.call(this, socketId, function (error, authData) {
+            if (!error) {
+                authData = authData;
+                if (authData.channel_data === undefined) {
+                    var suffix = url_store.buildLogSuffix('authenticationEndpoint');
+                    logger.error("Invalid auth response for channel '" + _this.name + "'," +
+                        ("expected 'channel_data' field. " + suffix));
+                    callback('Invalid auth response');
+                    return;
                 }
-            });
-        }); });
+                var channelData = JSON.parse(authData.channel_data);
+                _this.members.setMyID(channelData.user_id);
+            }
+            callback(error, authData);
+        });
     };
     PresenceChannel.prototype.handleEvent = function (event) {
         var eventName = event.event;
@@ -44602,9 +44547,6 @@ var presence_channel_PresenceChannel = (function (_super) {
         switch (eventName) {
             case 'pusher_internal:subscription_succeeded':
                 this.handleSubscriptionSucceededEvent(event);
-                break;
-            case 'pusher_internal:subscription_count':
-                this.handleSubscriptionCountEvent(event);
                 break;
             case 'pusher_internal:member_added':
                 var addedMember = this.members.addMember(data);
@@ -44674,17 +44616,18 @@ var encrypted_channel_EncryptedChannel = (function (_super) {
         var _this = this;
         _super.prototype.authorize.call(this, socketId, function (error, authData) {
             if (error) {
-                callback(error, authData);
+                callback(true, authData);
                 return;
             }
             var sharedSecret = authData['shared_secret'];
             if (!sharedSecret) {
-                callback(new Error("No shared_secret key in auth payload for encrypted channel: " + _this.name), null);
+                var errorMsg = "No shared_secret key in auth payload for encrypted channel: " + _this.name;
+                callback(true, errorMsg);
                 return;
             }
             _this.key = Object(base64["decode"])(sharedSecret);
             delete authData['shared_secret'];
-            callback(null, authData);
+            callback(false, authData);
         });
     };
     EncryptedChannel.prototype.trigger = function (event, data) {
@@ -44734,21 +44677,21 @@ var encrypted_channel_EncryptedChannel = (function (_super) {
                     logger.error("Failed to decrypt event with new key. Dropping encrypted event");
                     return;
                 }
-                _this.emit(event, _this.getDataToEmit(bytes));
+                _this.emitJSON(event, Object(utf8["decode"])(bytes));
                 return;
             });
             return;
         }
-        this.emit(event, this.getDataToEmit(bytes));
+        this.emitJSON(event, Object(utf8["decode"])(bytes));
     };
-    EncryptedChannel.prototype.getDataToEmit = function (bytes) {
-        var raw = Object(utf8["decode"])(bytes);
+    EncryptedChannel.prototype.emitJSON = function (eventName, data) {
         try {
-            return JSON.parse(raw);
+            this.emit(eventName, JSON.parse(data));
         }
-        catch (_a) {
-            return raw;
+        catch (e) {
+            this.emit(eventName, data);
         }
+        return this;
     };
     return EncryptedChannel;
 }(private_channel));
@@ -44946,7 +44889,7 @@ var connection_manager_ConnectionManager = (function (_super) {
                 _this.resetActivityCheck();
             },
             error: function (error) {
-                _this.emit('error', error);
+                _this.emit('error', { type: 'WebSocketError', error: error });
             },
             closed: function () {
                 _this.abandonConnection();
@@ -45084,15 +45027,13 @@ function createChannel(name, pusher) {
     else if (name.indexOf('presence-') === 0) {
         return factory.createPresenceChannel(name, pusher);
     }
-    else if (name.indexOf('#') === 0) {
-        throw new BadChannelName('Cannot create a channel with name "' + name + '".');
-    }
     else {
         return factory.createChannel(name, pusher);
     }
 }
 
 // CONCATENATED MODULE: ./src/core/utils/factory.ts
+
 
 
 
@@ -45123,6 +45064,12 @@ var Factory = {
     },
     createTimelineSender: function (timeline, options) {
         return new timeline_sender(timeline, options);
+    },
+    createAuthorizer: function (channel, options) {
+        if (options.authorizer) {
+            return options.authorizer(channel, options);
+        }
+        return new pusher_authorizer(channel, options);
     },
     createHandshake: function (transport, callback) {
         return new connection_handshake(transport, callback);
@@ -45903,7 +45850,7 @@ function replaceHost(url, hostname) {
     return urlParts[1] + hostname + urlParts[3];
 }
 function randomNumber(max) {
-    return runtime.randomInt(max);
+    return Math.floor(Math.random() * max);
 }
 function randomString(length) {
     var result = [];
@@ -46149,14 +46096,6 @@ var Runtime = {
         else if (window.detachEvent !== undefined) {
             window.detachEvent('onunload', listener);
         }
-    },
-    randomInt: function (max) {
-        var random = function () {
-            var crypto = window.crypto || window['msCrypto'];
-            var random = crypto.getRandomValues(new Uint32Array(1))[0];
-            return random / Math.pow(2, 32);
-        };
-        return Math.floor(random() * max);
     }
 };
 /* harmony default export */ var runtime = (Runtime);
@@ -46378,94 +46317,14 @@ var strategy_builder_UnsupportedStrategy = {
     }
 };
 
-// CONCATENATED MODULE: ./src/core/auth/user_authenticator.ts
-
-
-var composeChannelQuery = function (params, authOptions) {
-    var query = 'socket_id=' + encodeURIComponent(params.socketId);
-    for (var i in authOptions.params) {
-        query +=
-            '&' +
-                encodeURIComponent(i) +
-                '=' +
-                encodeURIComponent(authOptions.params[i]);
-    }
-    return query;
-};
-var UserAuthenticator = function (authOptions) {
-    if (typeof runtime.getAuthorizers()[authOptions.transport] === 'undefined') {
-        throw "'" + authOptions.transport + "' is not a recognized auth transport";
-    }
-    return function (params, callback) {
-        var query = composeChannelQuery(params, authOptions);
-        runtime.getAuthorizers()[authOptions.transport](runtime, query, authOptions, AuthRequestType.UserAuthentication, callback);
-    };
-};
-/* harmony default export */ var user_authenticator = (UserAuthenticator);
-
-// CONCATENATED MODULE: ./src/core/auth/channel_authorizer.ts
-
-
-var channel_authorizer_composeChannelQuery = function (params, authOptions) {
-    var query = 'socket_id=' + encodeURIComponent(params.socketId);
-    query += '&channel_name=' + encodeURIComponent(params.channelName);
-    for (var i in authOptions.params) {
-        query +=
-            '&' +
-                encodeURIComponent(i) +
-                '=' +
-                encodeURIComponent(authOptions.params[i]);
-    }
-    return query;
-};
-var ChannelAuthorizer = function (authOptions) {
-    if (typeof runtime.getAuthorizers()[authOptions.transport] === 'undefined') {
-        throw "'" + authOptions.transport + "' is not a recognized auth transport";
-    }
-    return function (params, callback) {
-        var query = channel_authorizer_composeChannelQuery(params, authOptions);
-        runtime.getAuthorizers()[authOptions.transport](runtime, query, authOptions, AuthRequestType.ChannelAuthorization, callback);
-    };
-};
-/* harmony default export */ var channel_authorizer = (ChannelAuthorizer);
-
-// CONCATENATED MODULE: ./src/core/auth/deprecated_channel_authorizer.ts
-var ChannelAuthorizerProxy = function (pusher, authOptions, channelAuthorizerGenerator) {
-    var deprecatedAuthorizerOptions = {
-        authTransport: authOptions.transport,
-        authEndpoint: authOptions.endpoint,
-        auth: {
-            params: authOptions.params,
-            headers: authOptions.headers
-        }
-    };
-    return function (params, callback) {
-        var channel = pusher.channel(params.channelName);
-        var channelAuthorizer = channelAuthorizerGenerator(channel, deprecatedAuthorizerOptions);
-        channelAuthorizer.authorize(params.socketId, callback);
-    };
-};
-
 // CONCATENATED MODULE: ./src/core/config.ts
-var __assign = (undefined && undefined.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 
 
-
-
-
-function getConfig(opts, pusher) {
+function getConfig(opts) {
     var config = {
         activityTimeout: opts.activityTimeout || defaults.activityTimeout,
+        authEndpoint: opts.authEndpoint || defaults.authEndpoint,
+        authTransport: opts.authTransport || defaults.authTransport,
         cluster: opts.cluster || defaults.cluster,
         httpPath: opts.httpPath || defaults.httpPath,
         httpPort: opts.httpPort || defaults.httpPort,
@@ -46479,10 +46338,12 @@ function getConfig(opts, pusher) {
         enableStats: getEnableStatsConfig(opts),
         httpHost: getHttpHost(opts),
         useTLS: shouldUseTLS(opts),
-        wsHost: getWebsocketHost(opts),
-        userAuthenticator: buildUserAuthenticator(opts),
-        channelAuthorizer: buildChannelAuthorizer(opts, pusher)
+        wsHost: getWebsocketHost(opts)
     };
+    if ('auth' in opts)
+        config.auth = opts.auth;
+    if ('authorizer' in opts)
+        config.authorizer = opts.authorizer;
     if ('disabledTransports' in opts)
         config.disabledTransports = opts.disabledTransports;
     if ('enabledTransports' in opts)
@@ -46535,255 +46396,8 @@ function getEnableStatsConfig(opts) {
     }
     return false;
 }
-function buildUserAuthenticator(opts) {
-    var userAuthentication = __assign(__assign({}, defaults.userAuthentication), opts.userAuthentication);
-    if ('customHandler' in userAuthentication &&
-        userAuthentication['customHandler'] != null) {
-        return userAuthentication['customHandler'];
-    }
-    return user_authenticator(userAuthentication);
-}
-function buildChannelAuth(opts, pusher) {
-    var channelAuthorization;
-    if ('channelAuthorization' in opts) {
-        channelAuthorization = __assign(__assign({}, defaults.channelAuthorization), opts.channelAuthorization);
-    }
-    else {
-        channelAuthorization = {
-            transport: opts.authTransport || defaults.authTransport,
-            endpoint: opts.authEndpoint || defaults.authEndpoint
-        };
-        if ('auth' in opts) {
-            if ('params' in opts.auth)
-                channelAuthorization.params = opts.auth.params;
-            if ('headers' in opts.auth)
-                channelAuthorization.headers = opts.auth.headers;
-        }
-        if ('authorizer' in opts)
-            channelAuthorization.customHandler = ChannelAuthorizerProxy(pusher, channelAuthorization, opts.authorizer);
-    }
-    return channelAuthorization;
-}
-function buildChannelAuthorizer(opts, pusher) {
-    var channelAuthorization = buildChannelAuth(opts, pusher);
-    if ('customHandler' in channelAuthorization &&
-        channelAuthorization['customHandler'] != null) {
-        return channelAuthorization['customHandler'];
-    }
-    return channel_authorizer(channelAuthorization);
-}
-
-// CONCATENATED MODULE: ./src/core/watchlist.ts
-var watchlist_extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-
-
-var watchlist_WatchlistFacade = (function (_super) {
-    watchlist_extends(WatchlistFacade, _super);
-    function WatchlistFacade(pusher) {
-        var _this = _super.call(this, function (eventName, data) {
-            logger.debug("No callbacks on watchlist events for " + eventName);
-        }) || this;
-        _this.pusher = pusher;
-        _this.bindWatchlistInternalEvent();
-        return _this;
-    }
-    WatchlistFacade.prototype.handleEvent = function (pusherEvent) {
-        var _this = this;
-        pusherEvent.data.events.forEach(function (watchlistEvent) {
-            _this.emit(watchlistEvent.name, watchlistEvent);
-        });
-    };
-    WatchlistFacade.prototype.bindWatchlistInternalEvent = function () {
-        var _this = this;
-        this.pusher.connection.bind('message', function (pusherEvent) {
-            var eventName = pusherEvent.event;
-            if (eventName === 'pusher_internal:watchlist_events') {
-                _this.handleEvent(pusherEvent);
-            }
-        });
-    };
-    return WatchlistFacade;
-}(dispatcher));
-/* harmony default export */ var watchlist = (watchlist_WatchlistFacade);
-
-// CONCATENATED MODULE: ./src/core/utils/flat_promise.ts
-function flatPromise() {
-    var resolve, reject;
-    var promise = new Promise(function (res, rej) {
-        resolve = res;
-        reject = rej;
-    });
-    return { promise: promise, resolve: resolve, reject: reject };
-}
-/* harmony default export */ var flat_promise = (flatPromise);
-
-// CONCATENATED MODULE: ./src/core/user.ts
-var user_extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-
-
-
-
-
-var user_UserFacade = (function (_super) {
-    user_extends(UserFacade, _super);
-    function UserFacade(pusher) {
-        var _this = _super.call(this, function (eventName, data) {
-            logger.debug('No callbacks on user for ' + eventName);
-        }) || this;
-        _this.signin_requested = false;
-        _this.user_data = null;
-        _this.serverToUserChannel = null;
-        _this.signinDonePromise = null;
-        _this._signinDoneResolve = null;
-        _this._onAuthorize = function (err, authData) {
-            if (err) {
-                logger.warn("Error during signin: " + err);
-                _this._cleanup();
-                return;
-            }
-            _this.pusher.send_event('pusher:signin', {
-                auth: authData.auth,
-                user_data: authData.user_data
-            });
-        };
-        _this.pusher = pusher;
-        _this.pusher.connection.bind('state_change', function (_a) {
-            var previous = _a.previous, current = _a.current;
-            if (previous !== 'connected' && current === 'connected') {
-                _this._signin();
-            }
-            if (previous === 'connected' && current !== 'connected') {
-                _this._cleanup();
-                _this._newSigninPromiseIfNeeded();
-            }
-        });
-        _this.watchlist = new watchlist(pusher);
-        _this.pusher.connection.bind('message', function (event) {
-            var eventName = event.event;
-            if (eventName === 'pusher:signin_success') {
-                _this._onSigninSuccess(event.data);
-            }
-            if (_this.serverToUserChannel &&
-                _this.serverToUserChannel.name === event.channel) {
-                _this.serverToUserChannel.handleEvent(event);
-            }
-        });
-        return _this;
-    }
-    UserFacade.prototype.signin = function () {
-        if (this.signin_requested) {
-            return;
-        }
-        this.signin_requested = true;
-        this._signin();
-    };
-    UserFacade.prototype._signin = function () {
-        if (!this.signin_requested) {
-            return;
-        }
-        this._newSigninPromiseIfNeeded();
-        if (this.pusher.connection.state !== 'connected') {
-            return;
-        }
-        this.pusher.config.userAuthenticator({
-            socketId: this.pusher.connection.socket_id
-        }, this._onAuthorize);
-    };
-    UserFacade.prototype._onSigninSuccess = function (data) {
-        try {
-            this.user_data = JSON.parse(data.user_data);
-        }
-        catch (e) {
-            logger.error("Failed parsing user data after signin: " + data.user_data);
-            this._cleanup();
-            return;
-        }
-        if (typeof this.user_data.id !== 'string' || this.user_data.id === '') {
-            logger.error("user_data doesn't contain an id. user_data: " + this.user_data);
-            this._cleanup();
-            return;
-        }
-        this._signinDoneResolve();
-        this._subscribeChannels();
-    };
-    UserFacade.prototype._subscribeChannels = function () {
-        var _this = this;
-        var ensure_subscribed = function (channel) {
-            if (channel.subscriptionPending && channel.subscriptionCancelled) {
-                channel.reinstateSubscription();
-            }
-            else if (!channel.subscriptionPending &&
-                _this.pusher.connection.state === 'connected') {
-                channel.subscribe();
-            }
-        };
-        this.serverToUserChannel = new channels_channel("#server-to-user-" + this.user_data.id, this.pusher);
-        this.serverToUserChannel.bind_global(function (eventName, data) {
-            if (eventName.indexOf('pusher_internal:') === 0 ||
-                eventName.indexOf('pusher:') === 0) {
-                return;
-            }
-            _this.emit(eventName, data);
-        });
-        ensure_subscribed(this.serverToUserChannel);
-    };
-    UserFacade.prototype._cleanup = function () {
-        this.user_data = null;
-        if (this.serverToUserChannel) {
-            this.serverToUserChannel.unbind_all();
-            this.serverToUserChannel.disconnect();
-            this.serverToUserChannel = null;
-        }
-        if (this.signin_requested) {
-            this._signinDoneResolve();
-        }
-    };
-    UserFacade.prototype._newSigninPromiseIfNeeded = function () {
-        if (!this.signin_requested) {
-            return;
-        }
-        if (this.signinDonePromise && !this.signinDonePromise.done) {
-            return;
-        }
-        var _a = flat_promise(), promise = _a.promise, resolve = _a.resolve, _ = _a.reject;
-        promise.done = false;
-        var setDone = function () {
-            promise.done = true;
-        };
-        promise.then(setDone)["catch"](setDone);
-        this.signinDonePromise = promise;
-        this._signinDoneResolve = resolve;
-    };
-    return UserFacade;
-}(dispatcher));
-/* harmony default export */ var user = (user_UserFacade);
 
 // CONCATENATED MODULE: ./src/core/pusher.ts
-
 
 
 
@@ -46809,10 +46423,10 @@ var pusher_Pusher = (function () {
             logger.warn('The disableStats option is deprecated in favor of enableStats');
         }
         this.key = app_key;
-        this.config = getConfig(options, this);
+        this.config = getConfig(options);
         this.channels = factory.createChannels();
         this.global_emitter = new dispatcher();
-        this.sessionID = runtime.randomInt(1000000000);
+        this.sessionID = Math.floor(Math.random() * 1000000000);
         this.timeline = new timeline_timeline(this.key, this.sessionID, {
             cluster: this.config.cluster,
             features: Pusher.getClientFeatures(),
@@ -46868,7 +46482,6 @@ var pusher_Pusher = (function () {
         });
         Pusher.instances.push(this);
         this.timeline.info({ instances: Pusher.instances.length });
-        this.user = new user(this);
         if (Pusher.isReady) {
             this.connect();
         }
@@ -46955,7 +46568,7 @@ var pusher_Pusher = (function () {
         }
         else {
             channel = this.channels.remove(channel_name);
-            if (channel && channel.subscribed) {
+            if (channel && this.connection.state === 'connected') {
                 channel.unsubscribe();
             }
         }
@@ -46965,9 +46578,6 @@ var pusher_Pusher = (function () {
     };
     Pusher.prototype.shouldUseTLS = function () {
         return this.config.useTLS;
-    };
-    Pusher.prototype.signin = function () {
-        this.user.signin();
     };
     Pusher.instances = [];
     Pusher.isReady = false;
@@ -46990,7 +46600,6 @@ runtime.setup(pusher_Pusher);
 /***/ })
 /******/ ]);
 });
-//# sourceMappingURL=pusher.js.map
 
 /***/ }),
 
@@ -47215,6 +46824,36 @@ options.transform = transform
 options.insertInto = undefined;
 
 var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostDetailsComponent.vue?vue&type=style&index=0&id=617505f4&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PostDetailsComponent.vue?vue&type=style&index=0&id=617505f4&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./PostDetailsComponent.vue?vue&type=style&index=0&id=617505f4&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostDetailsComponent.vue?vue&type=style&index=0&id=617505f4&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -67164,7 +66803,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   csrfToken: token.content,
   auth: {
     headers: {
-      Authorization: JSON.parse(localStorage.getItem('userToken'))
+      Authorization: /* 'Bearer '+  */JSON.parse(localStorage.getItem('userToken'))
     }
   }
 });
@@ -67683,7 +67322,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PostDetailsComponent_vue_vue_type_template_id_617505f4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostDetailsComponent.vue?vue&type=template&id=617505f4& */ "./resources/js/components/PostDetailsComponent.vue?vue&type=template&id=617505f4&");
 /* harmony import */ var _PostDetailsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostDetailsComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/PostDetailsComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _PostDetailsComponent_vue_vue_type_style_index_0_id_617505f4_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PostDetailsComponent.vue?vue&type=style&index=0&id=617505f4&lang=css& */ "./resources/js/components/PostDetailsComponent.vue?vue&type=style&index=0&id=617505f4&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -67691,7 +67332,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _PostDetailsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _PostDetailsComponent_vue_vue_type_template_id_617505f4___WEBPACK_IMPORTED_MODULE_0__["render"],
   _PostDetailsComponent_vue_vue_type_template_id_617505f4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -67720,6 +67361,22 @@ component.options.__file = "resources/js/components/PostDetailsComponent.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PostDetailsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./PostDetailsComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostDetailsComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PostDetailsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PostDetailsComponent.vue?vue&type=style&index=0&id=617505f4&lang=css&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/PostDetailsComponent.vue?vue&type=style&index=0&id=617505f4&lang=css& ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PostDetailsComponent_vue_vue_type_style_index_0_id_617505f4_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./PostDetailsComponent.vue?vue&type=style&index=0&id=617505f4&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PostDetailsComponent.vue?vue&type=style&index=0&id=617505f4&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PostDetailsComponent_vue_vue_type_style_index_0_id_617505f4_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PostDetailsComponent_vue_vue_type_style_index_0_id_617505f4_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PostDetailsComponent_vue_vue_type_style_index_0_id_617505f4_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_PostDetailsComponent_vue_vue_type_style_index_0_id_617505f4_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
 
 /***/ }),
 

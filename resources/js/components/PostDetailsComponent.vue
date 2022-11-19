@@ -43,7 +43,7 @@ color: #142d31 ;"  v-if="post.category">{{ post.category.name }}
 </div>
 
 <!-- Single Comment -->
-<div class="media mb-4" v-for="(comment,index) in post.comments" :key="index">
+<div class="media mb-4 comment" v-for="(comment,index) in post.comments" :key="index">
   <img class="d-flex mr-3 rounded-circle" :src="'/profile/'+comment.user.profile_image" style="height:50px;width:50px" alt="">
   <div class="media-body">
     <h5 class="mt-0">{{ comment.user.name }}</h5>
@@ -102,9 +102,9 @@ export default {
                 axios.get('/api/posts/'+this.$route.params.id)
                 .then(res => {
                 this.post = res.data
-                this.post_id = this.post.id
-                this.comments = this.post.comments
-                this.initializeListner()
+                this.post_id = this.post.id;
+                this.comments = this.post.comments;
+                this.initializeListner();
                 // console.log(res)
             }
                 ). catch(err => console.log(err))
@@ -113,7 +113,7 @@ export default {
       let {body,post_id} = this ; 
       axios.post('/api/comment/create',{body,post_id}).then((res) => {
             this.comments.unshift(res.data);
-            this.$alert("you comment Added successfully");
+            // this.$alert("you comment Added successfully");
           })
           .catch((err) => console.log(err));
           this.body = "" ;
@@ -123,10 +123,16 @@ export default {
       this.$store.commit('setUserToken',token)
     },
     initializeListner(){
-      Echo.private(`newComment.${this.post_id}`)
-    .listen('NewComment', (e) => {
-        console.log(e);
-        console.log('new listen to event');
+      window.Echo.private(`newComment.${this.post_id}`)
+        .listen('NewComment', (e) => {
+        console.log('event work');
+        this.comments.unshift(e.comment);
+
+        document.querySelectorAll('.comment').forEach(item =>{
+          item.classList.remove('new')
+        })
+        document.querySelectorAll('.comment')[0].classList.add('new')
+
     });
     }
   },
@@ -140,5 +146,22 @@ export default {
 </script>
 
 <style>
+.comment{
+  padding: 0.5rem;
+  background: #fff;
+}
 
+.comment.new{
+  background-color: #fff;
+  animation-name: newComment ;
+  -webkit-animation-name: newComment ;
+  animation-duration: 6s;
+  -webkit-animation-duration: 6s;
+  animation-iteration-count: 1;
+  -webkit-animation-iteration-count: 1;
+}
+@keyframes newComment {
+  from {background-color: rgb(241, 245,24);}
+  to {background-color: inherit;}
+}
 </style>

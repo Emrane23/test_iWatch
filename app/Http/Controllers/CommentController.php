@@ -42,7 +42,7 @@ class CommentController extends Controller
             'user_id' => Auth::id(),
             'post_id' => $request->post_id
         ]); 
-        broadcast(new NewComment($comment->user , $comment));
+        broadcast(new NewComment($comment->user , $comment))->toOthers();
         return response()->json([
             'id' => $comment->id ,
             'body' => $comment->body ,

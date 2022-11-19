@@ -25,8 +25,9 @@ class NewComment implements ShouldBroadcast
     public $comment ;
     public function __construct(User $user,$comment)
     {
-        $this->comment= $comment;
         $this->user = $user;
+        $this->comment= $comment;
+        
     }
 
     /**
@@ -36,6 +37,7 @@ class NewComment implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('newComment.',$this->comment->post_id);
+        $post_id = $this->comment->post_id ;
+        return new PrivateChannel("newComment.$post_id");
     }
 }

@@ -57,8 +57,8 @@ window.Echo = new Echo({
     csrfToken: token.content ,
     auth:{
         headers:{
-            Authorization: JSON.parse(localStorage.getItem('userToken'))
-        }
+            Authorization: /* 'Bearer '+  */JSON.parse(localStorage.getItem('userToken')),
+    }
     }
 
 });
