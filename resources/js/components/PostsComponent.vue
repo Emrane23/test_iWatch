@@ -101,7 +101,6 @@ export default {
   },
   mounted() {
     this.getPosts();
-    this.VerifUser();
   },
   methods: {
     getPosts(page = 1) {
@@ -113,12 +112,7 @@ export default {
         })
         .then((err) => console.log(err));
     },
-    VerifUser() {
-      if (this.isLogged) {
-        axios.get("/api/user").then((res) => {});
-        return res.data.id;
-      }
-    },
+   
     deletePost(postId) {
       this.$swal({
         title: "Are you sure?",
@@ -133,7 +127,7 @@ export default {
           axios
             .delete("/api/posts/delete/" + postId)
             .then((res) => {
-              console.log(res.data.message == "you are not allowed!");
+              console.log(res.data.message);
               if (res.data.message == "you are not allowed!") {
                 this.$swal({
                   icon: "error",
@@ -144,7 +138,7 @@ export default {
               } else {
                 this.$swal(
                   "Deleted!",
-                  "Your file has been deleted.",
+                  "Your post has been deleted.",
                   "success"
                 );
               }

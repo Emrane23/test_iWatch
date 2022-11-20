@@ -86,12 +86,14 @@ const store = new Vuex.Store({
         },
         getUnreadNotifications(state,data){
             state.notifications= data
-        }
-        ,
+        },
+        markAsRead(state,n){
+            state.notifications.shift(n);
+        },
         logout(state){
             state.userToken = null ;
             localStorage.removeItem('userToken');
-            this.$router.push('/');
+            router.push('/');
         },
         EditPost(state,post){
             state.EditPost = post
@@ -108,7 +110,7 @@ const store = new Vuex.Store({
         },
         LoginUser({commit},parametres){
             axios.post('/api/login',parametres).then( res => {
-                console.log(res)
+                console.log(res);
                 commit('setUserToken', res.data.token)
                 axios.get('/api/user')
                 .then( res => {
@@ -117,6 +119,10 @@ const store = new Vuex.Store({
                 })
             }).catch( err => {
                 console.log(err)
+                Vue.swal({ icon: "error",
+                  title: "Oops...",
+                  text: "Something went wrong!, Invalid credentials!",
+                  footer: '<a href="">Why do I have this issue?</a>',})
             })
             
         }

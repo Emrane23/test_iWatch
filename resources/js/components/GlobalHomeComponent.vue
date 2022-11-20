@@ -2,7 +2,7 @@
     <div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Emrane Klaai</a>
+      <a class="navbar-brand" href="#">{{ userName() }}</a>
       <notification/>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -109,19 +109,30 @@ export default {
     this.getCategories();
   },
   methods:{
-  updateToken(){
+   userName(){
+    if(this.isLogged && this.$store.state.user.name){
+      return this.$store.state.user.name
+    }else{
+      return 'Emrane Application'
+    }
+      
+    } 
+  ,updateToken(){
    
       let token = JSON.parse(localStorage.getItem('userToken')) 
       this.$store.commit('setUserToken',token)
     
   },
   getCategories(){
-        axios.get("/api/user/categories")
+    if (this.isLogged) {
+      axios.get("/api/user/categories")
         .then((res) => {
           this.categories = res.data;
           
         })
         .then((err) => console.log(err));
+    }
+        
     },
   onChangeImage(event){
         this.image = event.target.files[0]
@@ -165,7 +176,8 @@ computed:{
     },
     isAdmin(){
         return this.$store.getters.isAdmin
-    }
+    },
+    
 }, 
 
 }

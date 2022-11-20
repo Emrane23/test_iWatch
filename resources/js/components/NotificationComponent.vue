@@ -48,12 +48,15 @@ export default {
             return `${d.getFullYear()}/${d.getMonth()}/${d.getDate()}`;
         },
         getUnreadNotifications() {
+          if (this.isLogged) {
             axios.get("/api/get-unread-notifications").then(res => {
                 console.log(res.data);
                 this.$store.commit("getUnreadNotifications", res.data);
             }).catch(err => {
                 console.log(err);
             });
+          }
+            
         }
     },
     components: { RouterLink }

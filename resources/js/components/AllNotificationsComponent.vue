@@ -15,6 +15,7 @@
         <div class="media-body">
           <div class="mt-0">
             <strong>{{ n.data.comment_owner.name }}</strong> added a comment on your post
+            <i class="fa fa-check float-right" :class="n.read_at ? 'text-success' : 'text-danger' " @click="markAsRead(n,$event)"> </i>
           </div>
           <router-link class="p-0" :to="`/post/${n.data.post.id}`" target="_blank">{{ n.data.post.title }}</router-link>
           <p class="m-0"><i class="fa fa-clock-o mr-1"></i> {{formaTime(n.data.commented_at)  }} </p>
@@ -46,11 +47,33 @@ methods:{
             let d = new Date(date);
             return `${d.getFullYear()}/${d.getMonth()}/${d.getDate()}`;
         },
+    markAsRead(n,event){
+      axios.put('/api/mark-notifications-as-read',{id:n.id}).then( res => {
+        // this.$swal( 'Good job!',
+        //               'Mark as read successfully!',
+        //               'success');
+        if (res.data.message=='ok') {
+          event.target.classList.remove('text-danger');
+          event.target.classList.add('text-success');
+          this.$store.commit("markAsRead", n);
+        }
+      }).catch(err => {
+        this.$swal({ icon: "error",
+                  title: "Oops...",
+                  text: "Something went wrong!",
+                  footer: '<a href="">Why do I have this issue?</a>',})
+      })
+    }
 }
 
 }
 </script>
 
 <style>
-
+.media{
+  border-bottom :1px solid #999;padding: 5px ;
+}
+.fa-check{
+  cursor:pointer;
+}
 </style>

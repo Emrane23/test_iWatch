@@ -32,6 +32,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('user/categories', 'UserController@getCategories');
     Route::get('get-unread-notifications', 'UserController@getUnreadNotifications');
     Route::get('get-all-notifications', 'UserController@getAllNotifications');
+    Route::put('mark-notifications-as-read', 'UserController@markNotificationsAsRead');
     Route::post('user/addpost', 'UserController@addPost');
     // Route::resource('products', 'ProductController');
 });

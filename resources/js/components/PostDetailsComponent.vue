@@ -116,7 +116,7 @@ export default {
       axios.post('/api/comment/create',{body,post_id}).then((res) => {
             this.comments.unshift(res.data);
             this.$swal( 'Good job!',
-                      'You clicked the button!',
+                      'Comment added!',
                       'success');
                               })
           .catch((err) => console.log(err));
