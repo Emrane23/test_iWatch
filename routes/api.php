@@ -30,6 +30,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('comment/create', 'CommentController@store');
     Route::delete('posts/delete/{id}', 'PostController@deletePost');
     Route::get('user/categories', 'UserController@getCategories');
+    Route::get('get-unread-notifications', 'UserController@getUnreadNotifications');
+    Route::get('get-all-notifications', 'UserController@getAllNotifications');
     Route::post('user/addpost', 'UserController@addPost');
     // Route::resource('products', 'ProductController');
 });

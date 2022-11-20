@@ -107,21 +107,25 @@ export default {
                 this.initializeListner();
                 // console.log(res)
             }
-                ). catch(err => console.log(err))
-            },
+                ). catch((err) => {
+                  console.log(err)
+                  this.$router.push('/404-error');
+            })},
     addComment(){
       let {body,post_id} = this ; 
       axios.post('/api/comment/create',{body,post_id}).then((res) => {
             this.comments.unshift(res.data);
-            // this.$alert("you comment Added successfully");
-          })
+            this.$swal( 'Good job!',
+                      'You clicked the button!',
+                      'success');
+                              })
           .catch((err) => console.log(err));
           this.body = "" ;
     }, 
     updateToken(){
       let token = JSON.parse(localStorage.getItem('userToken')) 
       this.$store.commit('setUserToken',token)
-    },
+    }, 
     initializeListner(){
       window.Echo.private(`newComment.${this.post_id}`)
         .listen('NewComment', (e) => {

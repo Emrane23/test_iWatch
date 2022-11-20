@@ -93,4 +93,16 @@ class UserController extends Controller
     {
         return response()->json(['user' => auth()->user()], 200);
     }
+
+    public function getUnreadNotifications()
+    {
+       $notifications = Auth::user()->unreadNotifications  ;
+       return response()->json($notifications);
+    }
+
+    public function getAllNotifications()
+    {
+       $notifications = Auth::user()->notifications ;
+       return response()->json($notifications);
+    }
 }

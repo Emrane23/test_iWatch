@@ -35,11 +35,9 @@
               ><i class="fa fa-comment"></i>
               {{ post.comments_count }} comments</span
             >
-
-            
           </ul>
         </div>
-        <i class="fa fa-trash"></i><a  @click="deletePost(post.id)" >delete</a>
+        <i class="fa fa-trash"></i><a @click="deletePost(post.id)">delete</a>
       </div>
       <!-- Pagination -->
       <pagination :data="posts" @pagination-change-page="getPosts"></pagination>
@@ -78,8 +76,7 @@ export default {
       posts: {},
       searchpost: "",
       issearching: "",
-      test:false,
-      
+      test: false,
     };
   },
   components: {
@@ -116,27 +113,44 @@ export default {
         })
         .then((err) => console.log(err));
     },
-    VerifUser(){
-      if (this.isLogged){
-      axios.get('/api/user')
-                .then( res => {
-                })
-          return res.data.id;
-    }
+    VerifUser() {
+      if (this.isLogged) {
+        axios.get("/api/user").then((res) => {});
+        return res.data.id;
+      }
     },
     deletePost(postId) {
-      this.$confirm("Are you sure?").then(() => {
-        axios.delete("/api/posts/delete/" + postId)
-        .then((res) => {
-          console.log(res.data.message =='you are not allowed!');
-          if(res.data.message =='you are not allowed!'){
-            this.$alert("ERROR !!, you are not allowed ");
-          }else{
-            this.$alert("deleted successfully ! ");
-          }
-          
-        })
-        .then((err) => console.log(err));
+      this.$swal({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios
+            .delete("/api/posts/delete/" + postId)
+            .then((res) => {
+              console.log(res.data.message == "you are not allowed!");
+              if (res.data.message == "you are not allowed!") {
+                this.$swal({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Something went wrong!, you are not allowed!",
+                  footer: '<a href="">Why do I have this issue?</a>',
+                });
+              } else {
+                this.$swal(
+                  "Deleted!",
+                  "Your file has been deleted.",
+                  "success"
+                );
+              }
+            })
+            .then((err) => console.log(err));
+        }
       });
     },
   },

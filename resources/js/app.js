@@ -35,6 +35,12 @@ import router from './routes/routes';
 import Vuex from 'vuex';
 import Axios from 'axios';
 import VueSimpleAlert from "vue-simple-alert";
+import VueSweetalert2 from 'vue-sweetalert2';
+
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+Vue.use(VueSweetalert2);
  
 Vue.use(VueSimpleAlert);
 Vue.use(Vuex)
@@ -43,6 +49,7 @@ const store = new Vuex.Store({
         userToken: null,
         user: null,
         EditPost: {},
+        notifications: [],
     }, 
     getters:{
         isLogged(state){
@@ -71,11 +78,20 @@ const store = new Vuex.Store({
         setUser(state,user){
             state.user = user 
             Echo.connector.pusher.config.auth.headers.Authorization=`Bearer ${state.userToken}`;
+            Echo.private('App.User.' + state.user.id)
+            .notification((notification) => {
+                console.log('notif' ,notification);
+                state.notifications.unshift(notification)
+            });
         },
+        getUnreadNotifications(state,data){
+            state.notifications= data
+        }
+        ,
         logout(state){
             state.userToken = null ;
             localStorage.removeItem('userToken');
-            window.location.pathname = "/"
+            this.$router.push('/');
         },
         EditPost(state,post){
             state.EditPost = post
