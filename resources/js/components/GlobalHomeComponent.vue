@@ -9,21 +9,21 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
+          <li class="nav-item " :class="this.$route.path =='/' ? 'active' : '' ">
             <router-link class="nav-link" to="/">Home
               <span class="sr-only">(current)</span>
             </router-link>
           </li>
-          <li class="nav-item" >
+          <li class="nav-item " :class="this.$route.path =='/admin' ? 'active' : '' ">
             <router-link class="nav-link" v-if="isAdmin" to="/admin">Admin
               <span class="sr-only">(current)</span>
             </router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="index.html">blog</a>
+            <a class="nav-link"  href="index.html">blog</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
+          <li class="nav-item" :class="this.$route.path =='/contact' ? 'active' : '' ">
+            <router-link class="nav-link" to="/contact">Contact</router-link>
           </li>
           
           <li v-if="!isLogged" class="nav-item register-btn reg-login-btn" data-toggle="modal" data-target="#register-modal">
@@ -107,6 +107,7 @@ export default {
     this.updateToken();
     this.setUser();
     this.getCategories();
+    this.activeNavBar();
   },
   methods:{
    userName(){
@@ -115,9 +116,8 @@ export default {
     }else{
       return 'Emrane Application'
     }
-      
-    } 
-  ,updateToken(){
+    },
+    updateToken(){
    
       let token = JSON.parse(localStorage.getItem('userToken')) 
       this.$store.commit('setUserToken',token)
