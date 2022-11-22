@@ -24,12 +24,14 @@ Route::get('category/{slug}/posts','PostController@categoryPosts');
 Route::get('searchposts/{query}','PostController@search');
 Route::post('login', 'UserController@login');
 Route::post('register', 'UserController@register');
+Route::get('user/categories', 'UserController@getCategories');
+
 
 Route::middleware('auth:api')->group(function () {
     Route::get('user', 'UserController@details');
     Route::post('comment/create', 'CommentController@store');
     Route::delete('posts/delete/{id}', 'PostController@deletePost');
-    Route::get('user/categories', 'UserController@getCategories');
+    
     Route::get('get-unread-notifications', 'UserController@getUnreadNotifications');
     Route::get('get-all-notifications', 'UserController@getAllNotifications');
     Route::put('mark-notifications-as-read', 'UserController@markNotificationsAsRead');

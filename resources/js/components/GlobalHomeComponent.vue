@@ -107,11 +107,13 @@ export default {
     this.updateToken();
     this.setUser();
     this.getCategories();
-    this.activeNavBar();
+  },
+  mounted(){
+    this.userName();
   },
   methods:{
    userName(){
-    if(this.isLogged && this.$store.state.user.name){
+    if(this.isLogged && this.$store.state.user != null){
       return this.$store.state.user.name
     }else{
       return 'Emrane Application'

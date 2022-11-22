@@ -63,6 +63,9 @@ const store = new Vuex.Store({
         },
         PostToEdit(state){
             return state.EditPost
+        },
+        userName(state){
+            return state.user.name
         }
     },
     mutations:{
@@ -77,11 +80,13 @@ const store = new Vuex.Store({
         },
         setUser(state,user){
             state.user = user 
+            let audio =new Audio ('/notification/notification.wav');
             Echo.connector.pusher.config.auth.headers.Authorization=`Bearer ${state.userToken}`;
             Echo.private('App.User.' + state.user.id)
             .notification((notification) => {
-                console.log('notif' ,notification);
-                state.notifications.unshift(notification)
+                // console.log('notif' ,notification);
+                state.notifications.unshift(notification);
+                audio.play();
             });
         },
         getUnreadNotifications(state,data){

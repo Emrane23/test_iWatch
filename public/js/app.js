@@ -2264,11 +2264,13 @@ __webpack_require__.r(__webpack_exports__);
     this.updateToken();
     this.setUser();
     this.getCategories();
-    this.activeNavBar();
+  },
+  mounted: function mounted() {
+    this.userName();
   },
   methods: {
     userName: function userName() {
-      if (this.isLogged && this.$store.state.user.name) {
+      if (this.isLogged && this.$store.state.user != null) {
         return this.$store.state.user.name;
       } else {
         return 'Emrane Application';
@@ -2404,9 +2406,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     getUnreadNotifications: function getUnreadNotifications() {
       var _this = this;
-      if (this.isLogged) {
+      if (this.$store.getters.isLogged) {
         axios.get("/api/get-unread-notifications").then(function (res) {
-          console.log(res.data);
           _this.$store.commit("getUnreadNotifications", res.data);
         })["catch"](function (err) {
           console.log(err);
@@ -67336,6 +67337,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     PostToEdit: function PostToEdit(state) {
       return state.EditPost;
+    },
+    userName: function userName(state) {
+      return state.user.name;
     }
   },
   mutations: {
@@ -67350,10 +67354,12 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     setUser: function setUser(state, user) {
       state.user = user;
+      var audio = new Audio('/notification/notification.wav');
       Echo.connector.pusher.config.auth.headers.Authorization = "Bearer ".concat(state.userToken);
       Echo["private"]('App.User.' + state.user.id).notification(function (notification) {
-        console.log('notif', notification);
+        // console.log('notif' ,notification);
         state.notifications.unshift(notification);
+        audio.play();
       });
     },
     getUnreadNotifications: function getUnreadNotifications(state, data) {
@@ -68621,8 +68627,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\laravel-VueJs\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\laravel-VueJs\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\test_iWatch\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\test_iWatch\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
